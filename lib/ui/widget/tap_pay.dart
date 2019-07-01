@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_pay_clone/core/viewmodel/homepage_viewmodel.dart';
 import 'package:google_pay_clone/ui/view/homepage.dart';
 import 'dart:math' as math;
+import 'package:google_pay_clone/ui/view/te.dart';
 
 class TapPay extends StatelessWidget {
   final HomepageModel model;
@@ -20,18 +21,28 @@ class TapPay extends StatelessWidget {
         ),
         Opacity(
           opacity: model.opacity,
-          child: LongPressDraggable(
+          child: Draggable(
             axis: Axis.vertical,
             onDragStarted: () {
+              print("Drag Started");
               model.tezOn = true;
             },
-            hapticFeedbackOnStart: true,
             onDragEnd: (_) {
-              model.tezOn = false;
+              print("Drag End");
+              if (model.dataAcceptReceive != true &&
+                  model.dataAcceptPay != true) {
+                model.tezOn = false;
+              }
             },
-            feedback: _feedbackGpay(model),
-            childWhenDragging: _gpayChildWhileDragging(model),
-            child: _gpayTapChild(model),
+            feedback:
+                model.dataAcceptPay == true || model.dataAcceptReceive == true
+                    ? Container()
+                    : _feedbackGpay(model),
+            childWhenDragging: MTest(model),
+            child:
+                model.dataAcceptPay == true || model.dataAcceptReceive == true
+                    ? MTest(model)
+                    : _gpayTapChild(model),
           ),
         ),
         SizedBox(
@@ -66,53 +77,6 @@ class TapPay extends StatelessWidget {
               ),
             ),
           )),
-    );
-  }
-
-  Widget _gpayChildWhileDragging(HomepageModel model) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(util.size.width / 6),
-      child: AnimatedContainer(
-        color: Colors.black12,
-        width: util.size.width / 4,
-        height:
-            model.tezOn == false ? util.size.width / 4 : util.size.height / 3,
-        duration: Duration(milliseconds: 200),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            model.tezOn == true
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DragTarget(
-                      onAccept: (data) {},
-                      onWillAccept: (data) {return true;},
-                      builder: (_, __, ___) => Text(
-                            'PAY',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                    ),
-                  )
-                : Container(),
-            model.tezOn == true
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DragTarget(
-                      onWillAccept: (data) {return true;},
-                      onAccept: (data) {},
-                      builder: (_, __, ___) => Text(
-                            'RECEIVE',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                    ))
-                : Container(),
-          ],
-        ),
-      ),
     );
   }
 

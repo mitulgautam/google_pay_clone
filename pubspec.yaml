@@ -46,6 +46,7 @@ flutter:
   assets:
    - assets/profile.jpeg
    - assets/gpayAnim.flr
+   - assets/payAnim.flr
    - assets/gold.png
    - assets/train.png
    - assets/airtel.png

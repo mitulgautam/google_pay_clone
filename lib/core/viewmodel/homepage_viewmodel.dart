@@ -5,8 +5,17 @@ class HomepageModel extends ChangeNotifier {
   double _opacity = 1;
   ScrollController _scrollController = ScrollController();
   double _offset;
-  bool _tezOn = false;
+  bool _tezOn = false; //for testing switch back to false after complete
   bool _scrollNotifi = false;
+  bool _dataAcceptPay = false;
+  bool _dataAcceptReceive = false;
+
+  bool get dataAcceptPay => _dataAcceptPay;
+
+  set dataAcceptPay(bool value) {
+    _dataAcceptPay = value;
+    notifyListeners();
+  }
 
   bool get scrollNotifi => _scrollNotifi;
 
@@ -70,4 +79,11 @@ class HomepageModel extends ChangeNotifier {
   }
 
   ScrollController get scrollController => _scrollController;
+
+  bool get dataAcceptReceive => _dataAcceptReceive;
+
+  set dataAcceptReceive(bool value) {
+    _dataAcceptReceive = value;
+    notifyListeners();
+  }
 }
