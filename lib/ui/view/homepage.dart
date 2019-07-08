@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                         physics: model.dataAcceptPay == true ||
                                 model.dataAcceptReceive == true
                             ? NeverScrollableScrollPhysics()
-                            : ScrollPhysics(),
+                            : PageScrollPhysics(),
                         controller: model.scrollController,
                         reverse: false,
                         slivers: <Widget>[
